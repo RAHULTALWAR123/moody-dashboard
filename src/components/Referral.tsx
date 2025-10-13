@@ -1,11 +1,9 @@
-// src/components/Referral.tsx
 import { useEffect, useState } from "react";
 import { collection, getDocs, QueryDocumentSnapshot } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
 import { db } from "../lib/firebase";
-import { Clipboard, Check } from "lucide-react";
+import { Clipboard, Check, Users, Sparkles } from "lucide-react";
 
-// TypeScript interface
 interface ReferralData {
   id: string;
   email: string;
@@ -50,53 +48,78 @@ const Referral: React.FC = () => {
 
   if (loading)
     return (
-      <div className="flex justify-center items-center min-h-screen text-gray-300 bg-gray-900">
-        Loading referrals...
+      <div className="flex justify-center items-center min-h-screen text-white text-lg tracking-wide">
+        <Sparkles className="mr-2 w-5 h-5 text-purple-400 animate-spin" />
+        Loading Referrals...
       </div>
     );
 
   return (
-    <div className="p-8 min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900">
-      <h1 className="text-3xl font-bold mb-8 text-white text-center">User Referrals</h1>
-
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="p-10 min-h-screen text-white">
+    
+      {/* Referrals Grid */}
+      <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
         {referrals.map((ref) => (
           <div
             key={ref.id}
-            className="relative p-6 bg-gray-800/60 backdrop-blur-md border border-gray-700 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300"
+            className="group relative overflow-hidden bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-xl shadow-lg shadow-purple-500/30 hover:shadow-purple-800/40 transition-all duration-500 hover:-translate-y-2"
           >
+            {/* Animated Glow Background */}
+            <div className="absolute -inset-1 bg-gradient-to-br from-indigo-600/30 via-purple-600/20 to-pink-600/30 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-700 rounded-3xl pointer-events-none" />
+
             {/* Status Badge */}
-            {/* <span
-              className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${
-                ref.isActive ? "bg-green-500/30 text-green-200" : "bg-red-500/30 text-red-200"
-              }`}
-            >
-              {ref.isActive ? "Active" : "Inactive"}
-            </span> */}
+            <div className="absolute top-4 right-4">
+              <span
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
+                  ref.isActive
+                    ? "bg-green-500/20 text-green-300"
+                    : "bg-red-500/20 text-red-300"
+                }`}
+              >
+                {ref.isActive ? "Active" : "Inactive"}
+              </span>
+            </div>
 
-            {/* Email & Code */}
-            <p className="text-lg font-semibold text-white mb-1 truncate">{ref.email}</p>
-            <p className="text-sm text-indigo-300 mb-2">
-              Code: <span className="font-mono text-indigo-200">{ref.referralCode}</span>
-            </p>
+            {/* User Info */}
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 flex items-center justify-center shadow-md shadow-purple-600/30">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <p className="text-lg font-semibold truncate">{ref.email}</p>
+                <p className="text-sm text-white/50">User Referral</p>
+              </div>
+            </div>
 
-            {/* Total Uses */}
-            <p className="text-sm text-gray-300 mb-4">Total Uses: {ref.totalUses}</p>
+            {/* Referral Code */}
+            <div className="mb-5">
+              <p className="text-sm text-indigo-300 font-medium">
+                Referral Code
+              </p>
+              <div className="mt-1 text-lg font-mono text-white/90 bg-white/10 p-2 rounded-xl border border-white/10 select-all">
+                {ref.referralCode}
+              </div>
+            </div>
+
+           
 
             {/* Copy Button */}
             <button
               onClick={() => copyToClipboard(ref.referralCode)}
-              className="flex items-center justify-center w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl transition"
+              className="relative w-full py-2.5 rounded-xl font-medium text-sm overflow-hidden bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 hover:brightness-110 transition-all duration-300 flex items-center justify-center"
             >
-              {copiedCode === ref.referralCode ? (
-                <>
-                  <Check className="w-4 h-4 mr-2" /> Copiedd
-                </>
-              ) : (
-                <>
-                  <Clipboard className="w-4 h-4 mr-2" /> Copy Codes
-                </>
-              )}
+              <span className="relative z-10 flex items-center">
+                {copiedCode === ref.referralCode ? (
+                  <>
+                    <Check className="w-4 h-4 mr-2 text-white" /> Copied!
+                  </>
+                ) : (
+                  <>
+                    <Clipboard className="w-4 h-4 mr-2 text-white/90" /> Copy Code
+                  </>
+                )}
+              </span>
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-md transition-opacity duration-500" />
             </button>
           </div>
         ))}

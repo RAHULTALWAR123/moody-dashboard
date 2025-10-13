@@ -5,6 +5,7 @@ import {
   Share2,
   Clock,
   Music,
+  Activity,
 } from "lucide-react";
 import {
   ResponsiveContainer,
@@ -37,10 +38,34 @@ const Dashboard: React.FC = () => {
   ];
 
   const stats = [
-    { title: "Total Users", value: "5,247", icon: Users, gradient: "from-blue-500 to-purple-600" },
-    { title: "New Signups", value: "134", icon: UserPlus, gradient: "from-green-400 to-emerald-600" },
-    { title: "Active Referrals", value: "892", icon: Share2, gradient: "from-pink-500 to-rose-600" },
-    { title: "Avg Listening", value: "42m", icon: Clock, gradient: "from-orange-400 to-yellow-500" },
+    {
+      title: "Total Users",
+      value: "5,247",
+      icon: Users,
+      gradient: "from-blue-500/50 via-indigo-500/40 to-purple-500/40",
+      glow: "shadow-blue-500/30",
+    },
+    {
+      title: "New Signups",
+      value: "134",
+      icon: UserPlus,
+      gradient: "from-green-400/50 via-emerald-500/40 to-lime-500/40",
+      glow: "shadow-green-500/30",
+    },
+    {
+      title: "Active Referrals",
+      value: "892",
+      icon: Share2,
+      gradient: "from-pink-500/50 via-rose-500/40 to-fuchsia-500/40",
+      glow: "shadow-pink-500/30",
+    },
+    {
+      title: "Avg Listening",
+      value: "42m",
+      icon: Clock,
+      gradient: "from-orange-400/50 via-amber-500/40 to-yellow-500/40",
+      glow: "shadow-orange-500/30",
+    },
   ];
 
   const recentActivity = [
@@ -58,85 +83,135 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Top Stats Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat, i) => {
-          const Icon = stat.icon;
-          return (
-            <div key={i} className={`rounded-lg p-4 flex items-center justify-between text-white bg-gradient-to-r ${stat.gradient}`}>
-              <div>
-                <p className="text-xs opacity-80">{stat.title}</p>
-                <p className="text-xl font-bold">{stat.value}</p>
-              </div>
-              <Icon className="h-6 w-6 opacity-90" />
-            </div>
-          );
-        })}
-      </div>
+    <div className="relative min-h-screen overflow-hidden  text-white">
+      {/* Background Glow / Aurora */}
+      {/* <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(99,102,241,0.15),transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(236,72,153,0.12),transparent_70%)]" /> */}
 
-      {/* Middle Row: Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Referral Growth */}
-        <div className="bg-[#0E0E24] rounded-xl p-5 shadow-md border border-[#1E1E3A]">
-          <h3 className="text-white text-sm font-semibold mb-3">Referral Growth</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={referralData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2a2a45" />
-              <XAxis dataKey="week" stroke="#888" />
-              <YAxis stroke="#888" />
-              <Tooltip />
-              <Line type="monotone" dataKey="referrals" stroke="#a855f7" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
+      <div className="relative z-10 p-8 space-y-12">
+        {/* Page Title */}
+        
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map((stat, i) => {
+            const Icon = stat.icon;
+            return (
+              <div
+                key={i}
+                className={`relative p-6 rounded-3xl bg-gradient-to-br ${stat.gradient} 
+                backdrop-blur-2xl border border-white/10 ${stat.glow} hover:scale-[1.03] 
+                transition-all duration-500 shadow-[0_8px_40px_rgba(0,0,0,0.25)]`}
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <div className="bg-white/10 p-3 rounded-2xl">
+                    <Icon className="w-6 h-6 text-white" />
+                  </div>
+                  <p className="text-3xl font-bold">{stat.value}</p>
+                </div>
+                <p className="text-sm uppercase tracking-wide text-white/70 font-medium">
+                  {stat.title}
+                </p>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Mood Trends */}
-        <div className="bg-[#0E0E24] rounded-xl p-5 shadow-md border border-[#1E1E3A]">
-          <h3 className="text-white text-sm font-semibold mb-3">Mood Trends</h3>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={moodTrends}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#2a2a45" />
-              <XAxis dataKey="day" stroke="#888" />
-              <YAxis stroke="#888" />
-              <Tooltip />
-              <Bar dataKey="Happy" stackId="a" fill="#10B981" />
-              <Bar dataKey="Sad" stackId="a" fill="#3B82F6" />
-              <Bar dataKey="Energetic" stackId="a" fill="#F59E0B" />
-              <Bar dataKey="Relaxed" stackId="a" fill="#8B5CF6" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+          {/* Referral Growth */}
+          <div className="bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl p-6 shadow-[0_4px_40px_rgba(99,102,241,0.15)]">
+            <h3 className="flex items-center gap-2 mb-4 font-semibold text-lg text-purple-300">
+              <Share2 className="w-5 h-5" /> Referral Growth
+            </h3>
+            <ResponsiveContainer width="100%" height={260}>
+              <LineChart data={referralData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff15" />
+                <XAxis dataKey="week" stroke="#aaa" />
+                <YAxis stroke="#aaa" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    borderRadius: "10px",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "#fff",
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="referrals"
+                  stroke="#C084FC"
+                  strokeWidth={3}
+                  dot={{ r: 5, fill: "#C084FC" }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
 
-      {/* Bottom Row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Activity */}
-        <div className="bg-[#0E0E24] rounded-xl p-5 shadow-md border border-[#1E1E3A]">
-          <h3 className="text-white text-sm font-semibold mb-4">Recent User Activity</h3>
-          <div className="space-y-3">
-            {recentActivity.map((item, i) => (
-              <div key={i} className="flex justify-between items-center text-gray-300 text-sm bg-[#1A1A34] px-3 py-2 rounded-md hover:bg-[#232347] transition">
-                <span><span className="text-white font-medium">{item.user}</span> {item.action}</span>
-                <span className="text-xs opacity-70">{item.time}</span>
-              </div>
-            ))}
+          {/* Mood Trends */}
+          <div className="bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl p-6 shadow-[0_4px_40px_rgba(236,72,153,0.15)]">
+            <h3 className="flex items-center gap-2 mb-4 font-semibold text-lg text-pink-300">
+              <Music className="w-5 h-5" /> Mood Trends
+            </h3>
+            <ResponsiveContainer width="100%" height={260}>
+              <BarChart data={moodTrends}>
+                <CartesianGrid strokeDasharray="2 2" stroke="#ffffff15" />
+                <XAxis dataKey="day" stroke="#aaa" />
+                <YAxis stroke="#aaa" />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "rgba(255,255,255,0.1)",
+                    borderRadius: "10px",
+                    border: "1px solid rgba(255,255,255,0.2)",
+                    color: "#fff",
+                  }}
+                />
+                <Bar dataKey="Happy" stackId="a" fill="#10B981" />
+                <Bar dataKey="Sad" stackId="a" fill="#3B82F6" />
+                <Bar dataKey="Energetic" stackId="a" fill="#F59E0B" />
+                <Bar dataKey="Relaxed" stackId="a" fill="#8B5CF6" />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Top Songs */}
-        <div className="bg-[#0E0E24] rounded-xl p-5 shadow-md border border-[#1E1E3A]">
-          <h3 className="text-white text-sm font-semibold mb-4">Top Songs</h3>
-          <div className="space-y-3">
-            {topSongs.map((song, i) => (
-              <div key={i} className="flex justify-between items-center text-gray-300 text-sm bg-[#1A1A34] px-3 py-2 rounded-md hover:bg-[#232347] transition">
-                <div>
-                  <p className="text-white font-medium">{song.title}</p>
-                  <p className="text-xs opacity-70">{song.artist}</p>
+        {/* Activity & Top Songs */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-10">
+          {/* Recent Activity */}
+          <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl shadow-[0_4px_40px_rgba(147,51,234,0.15)]">
+            <h3 className="text-lg font-semibold text-indigo-300 mb-4">Recent Activity</h3>
+            <div className="space-y-3">
+              {recentActivity.map((item, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center px-4 py-3 rounded-2xl bg-white/10 border border-white/5 hover:bg-white/15 transition-all duration-300"
+                >
+                  <span className="text-sm">
+                    <span className="font-semibold text-white">{item.user}</span>{" "}
+                    <span className="text-white/70">{item.action}</span>
+                  </span>
+                  <span className="text-xs text-white/50">{item.time}</span>
                 </div>
-                <span className="text-xs text-purple-400">{song.plays} plays</span>
-              </div>
-            ))}
+              ))}
+            </div>
+          </div>
+
+          {/* Top Songs */}
+          <div className="p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-2xl shadow-[0_4px_40px_rgba(236,72,153,0.15)]">
+            <h3 className="text-lg font-semibold text-pink-300 mb-4">Top Songs</h3>
+            <div className="space-y-3">
+              {topSongs.map((song, i) => (
+                <div
+                  key={i}
+                  className="flex justify-between items-center px-4 py-3 rounded-2xl bg-white/10 border border-white/5 hover:bg-white/15 transition-all duration-300"
+                >
+                  <div>
+                    <p className="font-semibold">{song.title}</p>
+                    <p className="text-xs text-white/60">{song.artist}</p>
+                  </div>
+                  <span className="text-xs text-pink-400 font-medium">{song.plays} plays</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

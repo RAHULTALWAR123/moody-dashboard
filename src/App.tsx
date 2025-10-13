@@ -8,10 +8,13 @@ import MoodAnalysis from './components/MoodAnalysis';
 import AIPerformance from './components/AIPerformance';
 import Referral from './components/Referral';
 import { cn } from './lib/utils';
+import Login from './pages/Login';
+import { useUserStore } from './stores/useUserStore';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const {user} = useUserStore();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -30,8 +33,18 @@ function App() {
     }
   };
 
+  // ✅ If no user, show login page
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-black">
+        <Login />
+      </div>
+    );
+  }
+
+  // ✅ If user exists, show main dashboard layout
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
+    <div className="min-h-screen bg-white dark:bg-gradient-to-br from-gray-950 via-indigo-950 to-black">
       <Sidebar 
         activeTab={activeTab} 
         setActiveTab={setActiveTab}
