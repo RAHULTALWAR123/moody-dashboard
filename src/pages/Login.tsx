@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     const validPassword = "121@Admin";
 
     if (email === validEmail && password === validPassword) {
-      setUser({ email }); // ✅ Save user in Zustand
+      setUser(email); // ✅ Save user in Zustand
       setError("");
       console.log("✅ Login successful");
       alert("Welcome back, Admin!");

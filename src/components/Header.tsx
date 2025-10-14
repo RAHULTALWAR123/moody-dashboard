@@ -7,8 +7,10 @@ import {
   // Sun
 } from 'lucide-react';
 
-interface HeaderProps {
+export interface HeaderProps {
   activeTab: string;
+  sidebarOpen: boolean;
+  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderProps> = ({ activeTab }) => {

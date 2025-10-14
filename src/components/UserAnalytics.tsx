@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/UserAnalytics.tsx
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { Users, UserCheck, Calendar, TrendingUp, Sparkles } from "lucide-react";

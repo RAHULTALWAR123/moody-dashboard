@@ -5,7 +5,6 @@ import {
   Share2,
   Clock,
   Music,
-  Activity,
 } from "lucide-react";
 import {
   ResponsiveContainer,

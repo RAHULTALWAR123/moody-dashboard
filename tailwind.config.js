@@ -1,5 +1,6 @@
 import { defineConfig } from '@tailwindcss/postcss'
 
+
 export default defineConfig({
   content: [
     "./index.html",
@@ -55,4 +56,4 @@ export default defineConfig({
   },
   plugins: [],
   darkMode: 'class',
-})
+});

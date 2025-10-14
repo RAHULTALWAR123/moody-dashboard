@@ -4,14 +4,12 @@ import {
   Clock, 
   CheckCircle, 
   AlertCircle,
-  TrendingUp,
   Activity,
   Zap,
-  BarChart3,
   Cpu,
   Database
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area, ScatterChart, Scatter } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, AreaChart, Area } from 'recharts';
 
 const AIPerformance: React.FC = () => {
   // Mock data for demonstration
